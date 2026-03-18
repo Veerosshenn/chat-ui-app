@@ -1,13 +1,13 @@
-#💬 Chat System Frontend
+# 💬 Chat System Frontend
 
-##📌 Overview
+## 📌 Overview
 
 This is a responsive chat application built using ReactJS.
 It mimics a modern messaging app (like WhatsApp) and connects to a backend API for users, groups, and chat messages.
 
 ---
 
-##🚀 Features
+## 🚀 Features
 
 View list of users (contacts)
 
@@ -27,7 +27,7 @@ Mobile navigation with back button
 
 ---
 
-##🛠️ Tech Stack
+## 🛠️ Tech Stack
 
 -ReactJS
 
@@ -37,32 +37,26 @@ Mobile navigation with back button
 
 -Axios (API calls)
 
-##🔗 API Base URL
+## 🔗 API Base URL
 
 http://18.143.79.95/api/chatSystem
 
 ---
 
-##⚙️ How to Run
+## ⚙️ How to Run
 
-###Install dependencies:
+### Install dependencies:
 
 npm install
 
-###Start the app:
+### Start the app:
 
 npm start
 
-###Open in browser:
+### Open in browser:
 
 http://localhost:3000
 
 ---
 
-##📂 Project Structure
-src/
-├── components/
-├── services/
-├── App.js
-└── index.js
 
