@@ -1,0 +1,154 @@
+.groups-container {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.07);
+  padding: 18px 12px 12px 12px;
+  margin-top: 20px;
+}
+
+.groups-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.groups-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  flex: 1;
+}
+
+.groups-add-btn {
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background 0.2s;
+}
+
+.groups-add-btn:hover {
+  background: #5548c8;
+}
+
+.groups-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.groups-list-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 6px 8px;
+  transition: background 0.2s;
+}
+
+.groups-list-item:hover {
+  background: #f3f0ff;
+}
+
+.groups-badge {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  line-height: 28px;
+  margin-right: 10px;
+}
+
+.groups-list-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.groups-participants {
+  display: flex;
+  align-items: center;
+}
+
+.groups-participant-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.groups-participant-more {
+  font-size: 0.95rem;
+  color: #555;
+  background: #e0e0e0;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -8px;
+  border: 1px solid #fff;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+
+@media (max-width: 720px) {
+  .groups-container {
+    padding: 15px;
+    border-radius: 10px;
+    width: 80vw;
+    align-self: center;
+  }
+
+  .groups-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .groups-title {
+    font-size: 1rem;
+  }
+
+  .groups-list-item {
+    padding: 2px 4px;
+    font-size: 0.97rem;
+    margin-bottom: 4px;
+  }
+
+  .groups-badge {
+    width: 20px;
+    height: 20px;
+    font-size: 0.85rem;
+    line-height: 20px;
+    margin-right: 6px;
+    border-radius: 6px;
+  }
+
+  .groups-participant-avatar {
+    width: 18px;
+    height: 18px;
+  }
+
+  .groups-list-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display:block;
+    max-width: 120px;
+    font-size: 0.97rem;
+    word-break: break-word;
+  }
+}

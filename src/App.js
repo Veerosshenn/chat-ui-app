@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Sidebar from './components/Sidebar/Sidebar';
+import UserList from './components/UserList/UserList';
+import Groups from './components/Groups/Groups';
+import ChatWindow from './components/ChatWindow/ChatWindow';
+import UserProfile from './components/UserProfile/UserProfile';
 import './App.css';
 
 function App() {
+  const [selectedUser, setSelectedUser] = useState(null);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-root">
+      <Sidebar />
+      <div className="main-content">
+        <div className="left-panel">
+          <UserList onSelect={setSelectedUser} />
+          <Groups />
+        </div>
+        <div className="center-panel">
+          {selectedUser ? (
+            <ChatWindow selectedUser={selectedUser} />
+          ) : (
+            <div className="placeholder">Select a user to start chatting</div>
+          )}
+        </div>
+        <div className="right-panel">
+          {selectedUser && <UserProfile user={selectedUser} />}
+        </div>
+      </div>
     </div>
   );
 }

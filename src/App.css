@@ -36,3 +36,49 @@
     transform: rotate(360deg);
   }
 }
+
+.app-root {
+  display: flex;
+  background: #f5f6fa;
+  min-height: 100vh;
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  margin-left: 70px; /* width of sidebar */
+  padding: 24px 16px;
+  gap: 24px;
+}
+
+.left-panel {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.center-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.right-panel {
+  width: 320px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 720px) {
+  .main-content {
+    flex-direction: column;
+    padding: 8px 2px;
+    margin-left: 0;
+    gap: 8px;
+  }
+  .left-panel, .right-panel {
+    width: 100vw;
+    min-width: 0;
+  }
+}

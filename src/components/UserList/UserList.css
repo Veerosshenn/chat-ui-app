@@ -1,0 +1,53 @@
+.userlist-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 12px rgba(44, 62, 80, 0.07);
+    padding: 18px 12px 12px 12px;
+    margin: 20px 0;
+    min-width: 260px;
+    max-width: 320px;
+  }
+  
+  .userlist-search {
+    margin-bottom: 12px;
+  }
+  
+  .userlist-list {
+    max-height: 350px;
+    overflow-y: auto;
+    padding: 0;
+  }
+  
+  .userlist-list .MuiListItem-root {
+    border-radius: 10px;
+    margin-bottom: 6px;
+    transition: background 0.2s;
+  }
+  
+  .userlist-list .MuiListItem-root:hover,
+  .userlist-list .Mui-selected {
+    background: #f3f0ff;
+  }
+  
+  .userlist-list .MuiListItemText-primary {
+    font-weight: 500;
+    color: #2d2d2d;
+  }
+
+  @media (max-width: 720px) {
+    .userlist-container {
+      width: 90vw;
+      align-self: center;
+      padding: 15px;
+      border-radius: 15px;
+      margin-bottom: -25px;
+      
+    }
+    .userlist-list {
+      max-height: 200px;
+    }
+    .userlist-list .MuiListItem-root {
+      font-size: 0.97rem;
+      margin-bottom: 4px;
+    }
+  }

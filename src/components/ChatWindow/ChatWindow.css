@@ -1,0 +1,140 @@
+.chatwindow-container {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px rgba(44, 62, 80, 0.07);
+  padding: 18px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatwindow-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.chatwindow-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.chatwindow-username {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.chatwindow-role {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.chatwindow-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding-right: 8px;
+}
+
+.chatwindow-message {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 8px;
+}
+
+.chatwindow-message.me {
+  flex-direction: row-reverse;
+}
+
+.chatwindow-message-bubble {
+  background: #f3f0ff;
+  color: #2d2d2d;
+  padding: 8px 16px;
+  border-radius: 16px;
+  max-width: 70%;
+  word-break: break-word;
+}
+
+.chatwindow-message.me .chatwindow-message-bubble {
+  background: #6c63ff;
+  color: #fff;
+}
+
+.chatwindow-message-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin: 0 8px;
+}
+
+.chatwindow-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.chatwindow-input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+.chatwindow-send-btn {
+  background: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.chatwindow-send-btn:hover {
+  background: #5548c8;
+}
+.chatwindow-search {
+  margin-left: 700px;
+  height: 30px;
+  border-radius: 15px;
+  padding: 10px;
+  border: solid 0.5px;
+}
+
+@media (max-width: 720px) {
+  .chatwindow-container {
+      width: 80vw;
+      align-self: center;
+      padding: 15px;
+      border-radius: 15px;
+  }
+  .chatwindow-header {
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+  .chatwindow-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  .chatwindow-message-bubble {
+    max-width: 90%;
+    font-size: 0.97rem;
+    padding: 6px 10px;
+  }
+  .chatwindow-input-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .chatwindow-input {
+    font-size: 0.97rem;
+    padding: 6px 8px;
+  }
+  .chatwindow-send-btn {
+    width: 100%;
+    padding: 8px 0;
+  }
+}
