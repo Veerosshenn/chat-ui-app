@@ -3,7 +3,7 @@ import cors from "cors";
 import fs from "fs";
 
 // load mock data
-const data = JSON.parse(fs.readFileSync("./mock.json", "utf-8"));
+const data = JSON.parse(fs.readFileSync("./mockData.json", "utf-8"));
 
 const app = express();
 const PORT = process.env.PORT || 10000;
