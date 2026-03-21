@@ -1,9 +1,6 @@
 import express from "express";
 import cors from "cors";
-import fs from "fs";
-
-// load mock data
-const data = JSON.parse(fs.readFileSync("./mockData.json", "utf-8"));
+import axios from "axios";
 
 const app = express();
 const PORT = process.env.PORT || 10000;
@@ -11,69 +8,86 @@ const PORT = process.env.PORT || 10000;
 app.use(cors());
 app.use(express.json());
 
+// ORIGINAL API BASE
+const OLD_API = process.env.OLD_API_URL;
+
 /**
  * USERS
  */
-app.get("/users/list", (req, res) => {
-  res.json(data.users);
+app.get("/api/chatSystem/users/list", async (req, res) => {
+  try {
+    const response = await axios.get(`${OLD_API}/users/list`);
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch users" });
+  }
 });
 
 /**
  * GROUPS
  */
-app.get("/groups/list", (req, res) => {
-  res.json(data.groups);
+app.get("/api/chatSystem/groups/list", async (req, res) => {
+  try {
+    const response = await axios.get(`${OLD_API}/groups/list`);
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch groups" });
+  }
 });
 
 /**
  * USER DETAILS
  */
-app.get("/user/:id", (req, res) => {
-  const user = data.userDetails[req.params.id];
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
+app.get("/api/chatSystem/user/:id", async (req, res) => {
+  try {
+    const response = await axios.get(`${OLD_API}/user/${req.params.id}`);
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch user details" });
   }
-  res.json(user);
+});
+
+/**
+ * CHAT LIST
+ */
+app.get("/api/chatSystem/chat/list", async (req, res) => {
+  try {
+    const response = await axios.get(`${OLD_API}/chat/list`);
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch chat list" });
+  }
 });
 
 /**
  * CHAT BY USER ID
  */
-app.get("/chatByUserId/:id", (req, res) => {
-  res.json(data.chats[req.params.id] || []);
+app.get("/api/chatSystem/chatByUserId/:id", async (req, res) => {
+  try {
+    const response = await axios.get(`${OLD_API}/chatByUserId/${req.params.id}`);
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch chats" });
+  }
 });
 
 /**
  * ADD CHAT
  */
-app.post("/chat/add", (req, res) => {
-  const { toUser, fromUser, message } = req.body;
-
-  if (!toUser || !fromUser || !message) {
-    return res.status(400).json({ error: "Invalid chat payload" });
+app.post("/api/chatSystem/chat/add", async (req, res) => {
+  try {
+    const response = await axios.post(`${OLD_API}/chat/add`, req.body);
+    res.json(response.data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to send message" });
   }
-
-  // create chat array if not exist
-  if (!data.chats[toUser]) {
-    data.chats[toUser] = [];
-  }
-
-  const newMessage = {
-    fromUser,
-    toUser,
-    message
-  };
-
-  data.chats[toUser].push(newMessage);
-
-  res.json({ success: true, data: newMessage });
 });
 
 /**
- * HEALTH CHECK (optional)
+ * HEALTH CHECK
  */
 app.get("/", (req, res) => {
-  res.send("Mock API is running 🚀");
+  res.send("Proxy server running successfully");
 });
 
 app.listen(PORT, () => {
