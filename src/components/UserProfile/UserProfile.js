@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getUserDetails } from '../../services/api.js';
+import { CircularProgress, Alert } from '@mui/material';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import MessageIcon from '@mui/icons-material/Message';
 import VideoChatIcon from '@mui/icons-material/VideoChat';
@@ -7,12 +8,62 @@ import './UserProfile.css';
 
 const UserProfile = ({ user }) => {
   const [userDetails, setUserDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
+    setLoading(true);
+    setError('');
+
     if (user && user.id) {
-      getUserDetails(user.id).then(res => setUserDetails(res.data));
+      let isMounted = true;
+
+      getUserDetails(user.id)
+        .then((res) => {
+          if (isMounted) {
+            setUserDetails(res.data);
+          }
+        })
+        .catch(() => {
+          if (isMounted) {
+            setError('Unable to load profile');
+          }
+        })
+        .finally(() => {
+          if (isMounted) {
+            setLoading(false);
+          }
+        });
+
+      return () => {
+        isMounted = false;
+      };
     }
+
+    setUserDetails(null);
+    setLoading(false);
+    return undefined;
   }, [user]);
+
+  if (loading) {
+    return (
+      <div className="userprofile-container">
+        <div className="panel-loading">
+          <CircularProgress size={26} />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="userprofile-container">
+        <Alert severity="error" variant="outlined" className="panel-alert">
+          {error}
+        </Alert>
+      </div>
+    );
+  }
 
   if (!userDetails) {
     return <div className="userprofile-container">Select a user to view details</div>;

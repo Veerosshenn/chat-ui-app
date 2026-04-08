@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getChatbyUserID, addChat } from '../../services/api';
+import { CircularProgress, Alert } from '@mui/material';
 import './ChatWindow.css';
 
 const MY_USER_ID = 5;
@@ -8,34 +9,75 @@ const ChatWindow = ({ selectedUser, onBack }) => {
   const [messages, setMessages] = useState([]);
   const [msg, setMsg] = useState('');
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
   const messagesEndRef = useRef(null);
-  const messagesContainerRef = useRef(null);
 
   useEffect(() => {
+    setLoading(true);
+    setError('');
+
     if (selectedUser) {
-      getChatbyUserID(selectedUser.id).then(res => setMessages(res.data));
+      let isMounted = true;
+
+      getChatbyUserID(selectedUser.id)
+        .then((res) => {
+          if (isMounted) {
+            setMessages(res.data);
+          }
+        })
+        .catch(() => {
+          if (isMounted) {
+            setError('Unable to load conversation');
+          }
+        })
+        .finally(() => {
+          if (isMounted) {
+            setLoading(false);
+          }
+        });
+
+      return () => {
+        isMounted = false;
+      };
     }
+    setLoading(false);
+    return undefined;
   }, [selectedUser]);
 
-  
-  
-  
-  const sendMessage = () => {
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, search]);
+
+  const sendMessage = async () => {
     if (!msg.trim()) return;
     const chat = {
       fromUser: MY_USER_ID,
       toUser: selectedUser.id,
       message: msg
     };
-    addChat(chat).then(() => {
+
+    setSending(true);
+    setError('');
+
+    try {
+      await addChat(chat);
       setMsg('');
-      getChatbyUserID(selectedUser.id).then(res => setMessages(res.data));
-    });
+      const response = await getChatbyUserID(selectedUser.id);
+      setMessages(response.data);
+    } catch {
+      setError('Unable to send message');
+    } finally {
+      setSending(false);
+    }
   };
 
   const filteredMessages = messages.filter(m =>
     m.message.toLowerCase().includes(search.toLowerCase())
   );
+
+  const hasNoMatches = !loading && filteredMessages.length === 0 && search.trim();
 
   return (
     <div className="chatwindow-container">
@@ -53,35 +95,47 @@ const ChatWindow = ({ selectedUser, onBack }) => {
         <input
         className="chatwindow-search"
         type="text"
-        placeholder="Search messages..."
+        placeholder="Search messages"
         value={search}
         onChange={e => setSearch(e.target.value)}
+        aria-label="Search messages"
       />
       </div>
-      <div className="chatwindow-messages" ref={ messagesContainerRef }>
-        {filteredMessages.map((m, i) => (
-          <div
-            key={i}
-            className={`chatwindow-message ${m.fromUser === MY_USER_ID ? 'me' : 'other'}`}
-          >
-            {m.fromUser !== MY_USER_ID && (
-              <img className="chatwindow-message-avatar" src={selectedUser.profileImage} alt="" />
-            )}
-            <div className="chatwindow-message-bubble">{m.message}</div>
+      {error ? <Alert severity="error" variant="outlined" className="panel-alert">{error}</Alert> : null}
+      <div className="chatwindow-messages">
+        {loading ? (
+          <div className="panel-loading chat-loading">
+            <CircularProgress size={26} />
           </div>
-        ))}
+        ) : hasNoMatches ? (
+          <div className="panel-empty">No messages match your search.</div>
+        ) : (
+          filteredMessages.map((m, i) => (
+            <div
+              key={i}
+              className={`chatwindow-message ${m.fromUser === MY_USER_ID ? 'me' : 'other'}`}
+            >
+              {m.fromUser !== MY_USER_ID && (
+                <img className="chatwindow-message-avatar" src={selectedUser.profileImage} alt="" />
+              )}
+              <div className="chatwindow-message-bubble">{m.message}</div>
+            </div>
+          ))
+        )}
         <div ref={messagesEndRef} />
       </div>
-      <div className="chatwindow-input-row">
+      <form className="chatwindow-input-row" onSubmit={(event) => { event.preventDefault(); sendMessage(); }}>
         <input
           className="chatwindow-input"
-          placeholder="Type a message..."
+          placeholder="Type a message"
           value={msg}
           onChange={e => setMsg(e.target.value)}
-          onKeyDown={e => { if (e.key === 'Enter') sendMessage(); }}
+          disabled={sending}
         />
-        <button className="chatwindow-send-btn" onClick={sendMessage}>Send</button>
-      </div>
+        <button className="chatwindow-send-btn" type="submit" disabled={sending || !msg.trim()}>
+          {sending ? 'Sending...' : 'Send'}
+        </button>
+      </form>
     </div>
   );
 };

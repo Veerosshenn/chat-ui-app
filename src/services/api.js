@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.REACT_APP_SERVER_URL;
+const BASE_URL = (process.env.REACT_APP_SERVER_URL || '/api/chatSystem').replace(/\/$/, '');
 
 export const getUsers = () => axios.get(`${BASE_URL}/users/list`);
 

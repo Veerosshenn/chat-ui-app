@@ -1,12 +1,14 @@
 .userprofile-container {
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 2px 12px rgba(44, 62, 80, 0.07);
-    padding: 24px 18px 18px 18px;
-    min-width: 280px;
-    max-width: 340px;
-    margin: 0 auto;
-  }
+  background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(116, 130, 255, 0.12);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+  padding: 24px 18px 18px 18px;
+  min-width: 280px;
+  max-width: 340px;
+  margin: 0 auto;
+}
   
   .userprofile-header {
     display: flex;
@@ -35,17 +37,18 @@
   .userprofile-name {
     font-weight: 700;
     font-size: 1.2rem;
+    color: #111827;
   }
   
   .userprofile-role {
-    color: #888;
+    color: #667085;
     font-size: 1rem;
     margin-bottom: 4px;
   }
   
   .userprofile-location {
     font-size: 0.95rem;
-    color: #555;
+    color: #475467;
   }
   
   .userprofile-actions {
@@ -83,7 +86,7 @@
     font-weight: 600;
     font-size: 1rem;
     margin-bottom: 8px;
-    color: #6c63ff;
+    color: #4f46e5;
   }
   
   .userprofile-info-row {
@@ -94,7 +97,7 @@
   }
   
   .userprofile-info-label {
-    color: #888;
+    color: #667085;
     font-weight: 500;
   }
   
@@ -136,10 +139,10 @@
 
   @media (max-width: 720px) {
     .userprofile-container {
-      width: 80vw;
+        width: 100%;
       align-self: center;
-      padding: 15px;
-      border-radius: 15px;
+        padding: 16px;
+        border-radius: 20px;
     }
     .userprofile-header {
       flex-direction: column;
