@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Button, ButtonGroup } from '@mui/material';
 import Sidebar from './components/Sidebar/Sidebar';
 import UserList from './components/UserList/UserList';
 import Groups from './components/Groups/Groups';
@@ -9,6 +10,7 @@ import './App.css';
 function App() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [mobileSection, setMobileSection] = useState('contacts');
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 720px)');
@@ -25,21 +27,67 @@ function App() {
 
   return (
     <div className="app-root">
-      <Sidebar />
+      {!isMobile && <Sidebar />}
 
       <div className="main-content">
         {isMobile ? (
-          selectedUser ? (
+          selectedUser && mobileSection === 'profile' ? (
+            <div className="mobile-detail-shell">
+              <div className="mobile-detail-header">
+                <button
+                  className="mobile-detail-back"
+                  type="button"
+                  onClick={() => setMobileSection('chat')}
+                >
+                  ← Back to chat
+                </button>
+                <button
+                  className="mobile-detail-close"
+                  type="button"
+                  onClick={() => {
+                    setMobileSection('contacts');
+                    setSelectedUser(null);
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+              <UserProfile user={selectedUser} />
+            </div>
+          ) : selectedUser ? (
             <div className="center-panel">
-              <ChatWindow 
-                selectedUser={selectedUser} 
+              <ChatWindow
+                selectedUser={selectedUser}
                 onBack={() => setSelectedUser(null)}
+                onOpenProfile={() => setMobileSection('profile')}
               />
             </div>
           ) : (
-            <div className="left-panel mobile-stack">
-              <UserList onSelect={setSelectedUser} selectedUserId={selectedUser?.id} />
-              <Groups />
+            <div className="mobile-shell">
+              <div className="mobile-shell-header">
+                <div className="panel-eyebrow">Workspace</div>
+                <h2>Messages</h2>
+                <p>Choose between contacts and groups, then open a chat.</p>
+              </div>
+              <ButtonGroup className="mobile-switcher" variant="outlined" fullWidth>
+                <Button
+                  onClick={() => setMobileSection('contacts')}
+                  variant={mobileSection === 'contacts' ? 'contained' : 'outlined'}
+                >
+                  Contacts
+                </Button>
+                <Button
+                  onClick={() => setMobileSection('groups')}
+                  variant={mobileSection === 'groups' ? 'contained' : 'outlined'}
+                >
+                  Groups
+                </Button>
+              </ButtonGroup>
+              {mobileSection === 'groups' ? (
+                <Groups compact />
+              ) : (
+                <UserList onSelect={setSelectedUser} selectedUserId={selectedUser?.id} compact />
+              )}
             </div>
           )
         ) : (

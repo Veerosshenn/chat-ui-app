@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { getUsers } from '../../services/api.js';
-import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Badge, TextField, CircularProgress, Alert, ListItemButton } from '@mui/material';
+import { List, ListItem, ListItemAvatar, Avatar, ListItemText, Badge, TextField, CircularProgress, Alert, ListItemButton, Chip, Stack } from '@mui/material';
 import './UserList.css';
 
 const MY_USER_ID = 5;
 
-const UserList = ({ onSelect, selectedUserId }) => {
+const UserList = ({ onSelect, selectedUserId, compact = false }) => {
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState('');
+    const [visibility, setVisibility] = useState('all');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -38,10 +39,19 @@ const UserList = ({ onSelect, selectedUserId }) => {
 
     const filteredUsers = users
         .filter(u => u.id !== MY_USER_ID)
+        .filter((u) => {
+            if (visibility === 'unread') {
+                return Boolean(u.unread);
+            }
+
+            return true;
+        })
         .filter(u => (u.username || '').toLowerCase().includes(filter.toLowerCase()));
 
+    const unreadCount = users.filter((u) => u.id !== MY_USER_ID && u.unread).length;
+
     return (
-        <div className="userlist-container">
+        <div className={`userlist-container ${compact ? 'compact' : ''}`}>
             <div className="panel-title-row">
                 <div>
                     <div className="panel-eyebrow">Contacts</div>
@@ -49,6 +59,10 @@ const UserList = ({ onSelect, selectedUserId }) => {
                 </div>
                 <span className="panel-count">{filteredUsers.length}</span>
             </div>
+            <Stack direction="row" spacing={1} className="userlist-filters">
+                <Chip label={`All ${users.length ? `(${users.filter(u => u.id !== MY_USER_ID).length})` : ''}`} onClick={() => setVisibility('all')} color={visibility === 'all' ? 'primary' : 'default'} variant={visibility === 'all' ? 'filled' : 'outlined'} size="small" />
+                <Chip label={`Unread ${unreadCount ? `(${unreadCount})` : ''}`} onClick={() => setVisibility('unread')} color={visibility === 'unread' ? 'primary' : 'default'} variant={visibility === 'unread' ? 'filled' : 'outlined'} size="small" />
+            </Stack>
             <TextField
                 className="userlist-search"
                 label="Search contact"

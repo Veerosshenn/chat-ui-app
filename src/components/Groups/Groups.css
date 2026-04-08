@@ -8,6 +8,11 @@
   margin-top: 0;
 }
 
+.groups-container.compact {
+  width: 100%;
+  max-width: none;
+}
+
 .groups-header {
   display: flex;
   align-items: flex-start;

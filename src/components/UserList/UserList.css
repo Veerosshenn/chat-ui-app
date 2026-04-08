@@ -9,6 +9,16 @@
   min-width: 260px;
   max-width: 320px;
 }
+
+.userlist-container.compact {
+  max-width: none;
+  width: 100%;
+}
+
+.userlist-filters {
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
   
   .userlist-search {
   margin-top: 12px;
@@ -54,8 +64,13 @@
       align-self: center;
       padding: 16px;
       border-radius: 20px;
+      max-width: none;
     }
     .userlist-list {
       max-height: 200px;
+    }
+
+    .userlist-filters {
+      gap: 8px;
     }
   }

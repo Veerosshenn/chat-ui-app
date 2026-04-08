@@ -5,7 +5,7 @@ import './Groups.css';
 
 const groupColors = ['#a5b4fc', '#fcd34d', '#fca5a5', '#6ee7b7', '#fde68a'];
 
-const Groups = () => {
+const Groups = ({ compact = false }) => {
     const [groups, setGroups] = useState([]);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -44,7 +44,7 @@ const Groups = () => {
     };
 
     return (
-        <div className="groups-container">
+        <div className={`groups-container ${compact ? 'compact' : ''}`}>
             <div className="groups-header">
                 <div>
                     <div className="panel-eyebrow">Team spaces</div>

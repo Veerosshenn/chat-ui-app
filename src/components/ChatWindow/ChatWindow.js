@@ -5,7 +5,7 @@ import './ChatWindow.css';
 
 const MY_USER_ID = 5;
 
-const ChatWindow = ({ selectedUser, onBack }) => {
+const ChatWindow = ({ selectedUser, onBack, onOpenProfile }) => {
   const [messages, setMessages] = useState([]);
   const [msg, setMsg] = useState('');
   const [search, setSearch] = useState('');
@@ -91,7 +91,13 @@ const ChatWindow = ({ selectedUser, onBack }) => {
         <div>
           <div className="chatwindow-username">{selectedUser.username}</div>
           <div className="chatwindow-role">{selectedUser.position || 'User'}</div>
+          <div className="chatwindow-meta">{messages.length} messages</div>
         </div>
+        {onOpenProfile && (
+          <button className="chatwindow-profile-btn" onClick={onOpenProfile} type="button">
+            Profile
+          </button>
+        )}
         <input
         className="chatwindow-search"
         type="text"
